@@ -1,4 +1,4 @@
-# bucketlist
+# bucketlist go-lang trial
 
 ### Installation.
 Clone the repository.
@@ -20,3 +20,4 @@ API endpoint can be accessed. Via http://localhost:5000/
 Request |       Endpoints                 |       Functionality
 --------|---------------------------------|--------------------------------
 POST    |  /items                         |        Add item to bucketlist requires( id, title, description)
+PUT     |  /items/<id>                    |        Edit an item in bucketlist requires( title, description)
