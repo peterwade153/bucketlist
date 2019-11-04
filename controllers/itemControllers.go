@@ -29,7 +29,7 @@ func CreateItem(w http.ResponseWriter, r *http.Request){
 	models.Items = append(models.Items, newItem)
 
 	w.WriteHeader(201)
-	json.NewEncoder(w).Encode(newItem)
+	json.NewEncoder(w).Encode(models.Items)
 
 }
 
@@ -61,6 +61,20 @@ func EditItem(w http.ResponseWriter, r *http.Request){
 
 				models.Items = append(models.Items[:i], item)
 				json.NewEncoder(w).Encode(item)
+		}
+	}
+}
+
+// DeleteItem deletes items
+func DeleteItem(w http.ResponseWriter, r *http.Request){
+
+	id := mux.Vars(r)["id"]
+
+	itemID, _ := strconv.Atoi(id)
+
+	for i, item := range(models.Items){
+		if item.ID == itemID{
+			models.Items = append(models.Items[:i], models.Items[i+1:]...)
 		}
 	}
 }
