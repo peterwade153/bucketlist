@@ -23,3 +23,4 @@ Request |       Endpoints                 |       Functionality
 --------|---------------------------------|--------------------------------
 POST    |  /items                         |        Add item to bucketlist requires( id, title, description)
 PUT     |  /items/<id>                    |        Edit an item in bucketlist requires( title, description)
+DELETE  |  /items/<id>                    |        Delete an item in bucketlist

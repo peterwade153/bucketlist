@@ -39,7 +39,7 @@ func TestEditItem(t *testing.T){
 
 	// editting the item
 	var editdata = []byte (`{"id":5, "title":"title", "description":"description"}`)
-	editreq, editerr := http.NewRequest("PUT", "/items", bytes.NewBuffer(editdata))
+	editreq, editerr := http.NewRequest("PUT", "/items/5", bytes.NewBuffer(editdata))
 	if editerr != nil{
 		t.Fatal(err)
 	}
@@ -48,6 +48,32 @@ func TestEditItem(t *testing.T){
 	edithandler := http.HandlerFunc(controllers.EditItem)
 	edithandler.ServeHTTP(editres, editreq)
 	if status := editres.Code; status != http.StatusOK{
+		t.Errorf("wrong status code: got %v instead of %v", status, http.StatusOK)
+	}
+}
+
+func TestDeleteItem(t *testing.T){
+	// creating item to edit
+	var dummydata = []byte (`{"id":5, "title":"title", "description":"description"}`)
+	req, err := http.NewRequest("POST", "/items", bytes.NewBuffer(dummydata))
+	if err != nil{
+		t.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	res := httptest.NewRecorder()
+	handler := http.HandlerFunc(controllers.CreateItem)
+	handler.ServeHTTP(res, req)
+
+	// deleting item
+	delreq, delerr := http.NewRequest("DELETE", "/items/5", nil)
+	if delerr != nil{
+		t.Fatal(err)
+	}
+
+	delres := httptest.NewRecorder()
+	delhandler := http.HandlerFunc(controllers.DeleteItem)
+	delhandler.ServeHTTP(delres, delreq)
+	if status := delres.Code; status != http.StatusOK{
 		t.Errorf("wrong status code: got %v instead of %v", status, http.StatusOK)
 	}
 }

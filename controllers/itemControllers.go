@@ -64,3 +64,17 @@ func EditItem(w http.ResponseWriter, r *http.Request){
 		}
 	}
 }
+
+// DeleteItem deletes items
+func DeleteItem(w http.ResponseWriter, r *http.Request){
+
+	id := mux.Vars(r)["id"]
+
+	itemID, _ := strconv.Atoi(id)
+
+	for i, item := range(models.Items){
+		if item.ID == itemID{
+			models.Items = append(models.Items[:i], models.Items[i+1:]...)
+		}
+	}
+}
