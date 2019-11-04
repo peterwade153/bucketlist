@@ -25,6 +25,7 @@ func CreateItem(w http.ResponseWriter, r *http.Request){
 	// update Items to add new item
 	models.Items = append(models.Items, newItem)
 
+	w.WriteHeader(201)
 	json.NewEncoder(w).Encode(newItem)
 
 }
