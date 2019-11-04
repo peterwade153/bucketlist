@@ -29,7 +29,7 @@ func CreateItem(w http.ResponseWriter, r *http.Request){
 	models.Items = append(models.Items, newItem)
 
 	w.WriteHeader(201)
-	json.NewEncoder(w).Encode(models.Items)
+	json.NewEncoder(w).Encode(newItem)
 
 }
 
