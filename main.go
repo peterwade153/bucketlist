@@ -18,6 +18,8 @@ func main(){
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", home)
 	router.HandleFunc("/items", controllers.CreateItem).Methods("POST")
+	router.HandleFunc("/items", controllers.GetallItems).Methods("GET")
+	router.HandleFunc("/items/{id}", controllers.GetItem).Methods("GET")
 	router.HandleFunc("/items/{id}", controllers.EditItem).Methods("PUT")
 	router.HandleFunc("/items/{id}", controllers.DeleteItem).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":5000", router))
