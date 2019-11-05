@@ -41,7 +41,7 @@ func TestEditItem(t *testing.T){
 	var editdata = []byte (`{"id":5, "title":"title", "description":"description"}`)
 	editreq, editerr := http.NewRequest("PUT", "/items/5", bytes.NewBuffer(editdata))
 	if editerr != nil{
-		t.Fatal(err)
+		t.Fatal(editerr)
 	}
 	editreq.Header.Set("Content-Type", "application/json")
 	editres := httptest.NewRecorder()
@@ -67,13 +67,41 @@ func TestDeleteItem(t *testing.T){
 	// deleting item
 	delreq, delerr := http.NewRequest("DELETE", "/items/5", nil)
 	if delerr != nil{
-		t.Fatal(err)
+		t.Fatal(delerr)
 	}
 
 	delres := httptest.NewRecorder()
 	delhandler := http.HandlerFunc(controllers.DeleteItem)
 	delhandler.ServeHTTP(delres, delreq)
 	if status := delres.Code; status != http.StatusOK{
+		t.Errorf("wrong status code: got %v instead of %v", status, http.StatusOK)
+	}
+}
+
+func TestGetallItems(t *testing.T){
+	req, err := http.NewRequest("GET", "/items", nil)
+	if err != nil{
+		t.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	res := httptest.NewRecorder()
+	handler := http.HandlerFunc(controllers.GetallItems)
+	handler.ServeHTTP(res, req)
+	if status := res.Code; status != http.StatusOK{
+		t.Errorf("wrong status code: got %v instead of %v", status, http.StatusOK)
+	}
+}
+
+func TestGetItem(t *testing.T){
+	req, err := http.NewRequest("GET", "/items/1", nil)
+	if err != nil{
+		t.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	res := httptest.NewRecorder()
+	handler := http.HandlerFunc(controllers.GetItem)
+	handler.ServeHTTP(res, req)
+	if status := res.Code; status != http.StatusOK{
 		t.Errorf("wrong status code: got %v instead of %v", status, http.StatusOK)
 	}
 }

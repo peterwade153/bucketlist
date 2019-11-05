@@ -29,6 +29,7 @@ func CreateItem(w http.ResponseWriter, r *http.Request){
 	models.Items = append(models.Items, newItem)
 
 	w.WriteHeader(201)
+	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(newItem)
 
 }
@@ -60,6 +61,7 @@ func EditItem(w http.ResponseWriter, r *http.Request){
 				item.Description = updatedItem.Description
 
 				models.Items = append(models.Items[:i], item)
+				w.Header().Add("Content-Type", "application/json")
 				json.NewEncoder(w).Encode(item)
 		}
 	}
@@ -75,6 +77,27 @@ func DeleteItem(w http.ResponseWriter, r *http.Request){
 	for i, item := range(models.Items){
 		if item.ID == itemID{
 			models.Items = append(models.Items[:i], models.Items[i+1:]...)
+		}
+	}
+}
+
+// GetallItems returns all items
+func GetallItems(w http.ResponseWriter, r *http.Request){
+	w.Header().Add("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(models.Items)
+}
+
+// GetItem returns an items
+func GetItem(w http.ResponseWriter, r *http.Request){
+
+	id := mux.Vars(r)["id"]
+
+	itemID, _ := strconv.Atoi(id)
+
+	for _, item := range(models.Items){
+		if item.ID == itemID{
+			w.Header().Add("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(item)
 		}
 	}
 }
