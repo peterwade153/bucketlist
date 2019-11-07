@@ -3,6 +3,7 @@
 # bucketlist go-lang trial
 
 ### Installation.
+Should have Go Installed
 Clone the repository.
 <pre>
 git clone https://github.com/peterwade153/bucketlist.git
